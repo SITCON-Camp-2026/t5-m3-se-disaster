@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { App } from "../src/app/App";
 
@@ -43,6 +43,54 @@ describe("App", () => {
     ).toBeInTheDocument();
     expect(screen.getAllByText("待人工確認").length).toBeGreaterThan(0);
     expect(screen.getAllByText("未查核").length).toBeGreaterThan(0);
+  });
+
+  it("classifies rain boots as a materials support need", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "訊息分類" }));
+
+    const materialsSection = screen
+      .getByRole("heading", { name: "物資" })
+      .closest("section");
+
+    expect(materialsSection).not.toBeNull();
+    expect(within(materialsSection as HTMLElement).getAllByText(/雨鞋/).length).toBeGreaterThan(0);
+  });
+
+  it("keeps non-food information out of the food and water bucket", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "訊息分類" }));
+
+    const foodSection = screen
+      .getByRole("heading", { name: "食物／飲水" })
+      .closest("section");
+
+    expect(foodSection).not.toBeNull();
+    expect(within(foodSection as HTMLElement).queryByText(/水電檢修/)).not.toBeInTheDocument();
+  });
+
+  it("offers a message classification workspace for uncategorized items", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "訊息分類" }));
+
+    expect(screen.getByText("訊息分類工作台")).toBeInTheDocument();
+    expect(screen.getAllByText("不能直接當作已確認事實").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("派工前要先確認").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/派工準備度：不可派工/).length).toBeGreaterThan(0);
+    expect(
+      screen.queryByText("已分類", { selector: "span.classification-chip" }),
+    ).not.toBeInTheDocument();
+
+    fireEvent.change(screen.getAllByLabelText("狀態")[0], {
+      target: { value: "已分類" },
+    });
+
+    expect(screen.getAllByText("已分類").length).toBeGreaterThan(0);
+    expect(screen.getByText("已分類", { selector: "span.classification-chip" })).toBeInTheDocument();
+    expect(screen.getAllByText(/派工準備度：分類草稿/).length).toBeGreaterThan(0);
   });
 
   it("keeps draft CRUD as learner work instead of starter output", () => {
