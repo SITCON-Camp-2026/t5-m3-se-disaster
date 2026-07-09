@@ -38,6 +38,7 @@
 | 2026-07-09 | Phase 0 | 支援多個分類輸出 | User 指出一筆資料可能不只一種分類；Agent 將服務類型改成多選輸出，讓同一筆資訊可出現在多個服務分組 | 採用 | 原始資訊常混合多種線索，強迫單一分類會遺漏脈絡；但每個輸出仍只是待人工確認草稿 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx`, `docs/phase0-observations.md` |
 | 2026-07-09 | Release 01 | 訪談前需求取捨 | Agent 依對話整理資訊整理者作為 v1 主要使用者，並補上轉發網路貼文的來源確認問題 | 部分採用 | 採用來源檢查清單與「未確認」標示；不採用自動驗證貼文真偽，因為這需要人工確認且不能補外部資料 | `docs/interview-notes.md`, `docs/interview-summary.md`, `docs/decisions.md` |
 | 2026-07-09 | Release 01 | 整理需求取捨文件 | Agent 將使用者貼上的重複草稿整理成 `docs/decisions.md`，保留人力需求欄位與人工確認限制 | 採用 | 人力需求可以作為整理草稿，但能不能派工、是否派人、派多少人仍必須由人類確認 | `docs/decisions.md`, `docs/ai-log.md` |
+| 2026-07-09 | Release 02 | 繪製資訊整理流程 | Agent 根據 `docs/decisions.md` 和流程設計 kit 產生自然語言流程與 Mermaid 流程圖 | 採用 | 流程把人力/物資需求保留為草稿，並明確保留人類調度確認，避免 AI 自動派工 | `docs/flow.md`, `docs/ai-log.md` |
 
 ## 課後反思
 
