@@ -55,7 +55,9 @@ describe("App", () => {
       .closest("section");
 
     expect(materialsSection).not.toBeNull();
-    expect(within(materialsSection as HTMLElement).getAllByText(/雨鞋/).length).toBeGreaterThan(0);
+    expect(
+      within(materialsSection as HTMLElement).getAllByText(/雨鞋/).length,
+    ).toBeGreaterThan(0);
   });
 
   it("keeps non-food information out of the food and water bucket", () => {
@@ -68,7 +70,9 @@ describe("App", () => {
       .closest("section");
 
     expect(foodSection).not.toBeNull();
-    expect(within(foodSection as HTMLElement).queryByText(/水電檢修/)).not.toBeInTheDocument();
+    expect(
+      within(foodSection as HTMLElement).queryByText(/水電檢修/),
+    ).not.toBeInTheDocument();
   });
 
   it("offers a message classification workspace for uncategorized items", () => {
@@ -77,9 +81,13 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "訊息分類" }));
 
     expect(screen.getByText("訊息分類工作台")).toBeInTheDocument();
-    expect(screen.getAllByText("不能直接當作已確認事實").length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText("不能直接當作已確認事實").length,
+    ).toBeGreaterThan(0);
     expect(screen.getAllByText("派工前要先確認").length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/派工準備度：不可派工/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/派工準備度：不可派工/).length).toBeGreaterThan(
+      0,
+    );
     expect(
       screen.queryByText("已分類", { selector: "span.classification-chip" }),
     ).not.toBeInTheDocument();
@@ -89,8 +97,12 @@ describe("App", () => {
     });
 
     expect(screen.getAllByText("已分類").length).toBeGreaterThan(0);
-    expect(screen.getByText("已分類", { selector: "span.classification-chip" })).toBeInTheDocument();
-    expect(screen.getAllByText(/派工準備度：分類草稿/).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText("已分類", { selector: "span.classification-chip" }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText(/派工準備度：分類草稿/).length).toBeGreaterThan(
+      0,
+    );
   });
 
   it("keeps draft CRUD as learner work instead of starter output", () => {

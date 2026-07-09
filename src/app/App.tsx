@@ -7,12 +7,7 @@ import type { Phase0MessyRecord } from "../features/phase-0/phase0-types";
 
 type TabKey = "raw" | "workbench" | "classification";
 type EventType =
-  | "淹水"
-  | "交通阻塞"
-  | "房屋受損"
-  | "人員受困"
-  | "物資短缺"
-  | "其他";
+  "淹水" | "交通阻塞" | "房屋受損" | "人員受困" | "物資短缺" | "其他";
 type ServiceType =
   | "醫療"
   | "食物／飲水"
@@ -22,7 +17,8 @@ type ServiceType =
   | "安置"
   | "通訊"
   | "其他";
-type ReviewState = "待分類" | "已分類" | "需要人工確認" | "不能直接當作已確認事實";
+type ReviewState =
+  "待分類" | "已分類" | "需要人工確認" | "不能直接當作已確認事實";
 type DispatchReadiness = "不可派工" | "待補資料" | "分類草稿";
 
 type MessageItem = {
@@ -124,7 +120,9 @@ function inferReviewState(record: Phase0MessyRecord): ReviewState {
 }
 
 function buildReviewNotes(record: Phase0MessyRecord): string[] {
-  const notes = [`原始查核狀態是 ${record.verificationStatus}，不是已確認資料。`];
+  const notes = [
+    `原始查核狀態是 ${record.verificationStatus}，不是已確認資料。`,
+  ];
 
   if (/不知道|不確定|疑似|尚未|未確認|沒有說|無法確認/.test(record.rawText)) {
     notes.push("原文直接提到仍有不確定或尚未確認的資訊。");
@@ -134,7 +132,11 @@ function buildReviewNotes(record: Phase0MessyRecord): string[] {
     notes.push("來源或轉述鏈需要人工追問，不能直接當作當事人確認。");
   }
 
-  if (/地址只有|位置在|完整地址|哪一天|官方公告|道路危險|任務已完成/.test(record.rawText)) {
+  if (
+    /地址只有|位置在|完整地址|哪一天|官方公告|道路危險|任務已完成/.test(
+      record.rawText,
+    )
+  ) {
     notes.push("缺少可派工所需的時間、地點、同意或現場條件。");
   }
 
@@ -196,7 +198,10 @@ export function App() {
     );
   }
 
-  function updateMessageReviewState(messageId: string, reviewState: ReviewState) {
+  function updateMessageReviewState(
+    messageId: string,
+    reviewState: ReviewState,
+  ) {
     setMessages((current) =>
       current.map((message) =>
         message.id === messageId
@@ -214,13 +219,25 @@ export function App() {
     return ["待分類", "已分類", "需要人工確認", "不能直接當作已確認事實"].map(
       (state) => ({
         state,
-        count: messages.filter((message) => message.reviewState === state).length,
+        count: messages.filter((message) => message.reviewState === state)
+          .length,
       }),
     );
   }, [messages]);
 
   const groupedMessages = useMemo(() => {
-    return (["醫療", "食物／飲水", "物資", "挖土／清障", "運送", "安置", "通訊", "其他"] as ServiceType[]).map((serviceType) => ({
+    return (
+      [
+        "醫療",
+        "食物／飲水",
+        "物資",
+        "挖土／清障",
+        "運送",
+        "安置",
+        "通訊",
+        "其他",
+      ] as ServiceType[]
+    ).map((serviceType) => ({
       serviceType,
       items: messages.filter((message) => message.serviceType === serviceType),
     }));
@@ -340,7 +357,16 @@ export function App() {
                               })
                             }
                           >
-                            {(["淹水", "交通阻塞", "房屋受損", "人員受困", "物資短缺", "其他"] as EventType[]).map((eventType) => (
+                            {(
+                              [
+                                "淹水",
+                                "交通阻塞",
+                                "房屋受損",
+                                "人員受困",
+                                "物資短缺",
+                                "其他",
+                              ] as EventType[]
+                            ).map((eventType) => (
                               <option key={eventType} value={eventType}>
                                 {eventType}
                               </option>
@@ -358,7 +384,18 @@ export function App() {
                               })
                             }
                           >
-                            {(["醫療", "食物／飲水", "物資", "挖土／清障", "運送", "安置", "通訊", "其他"] as ServiceType[]).map((serviceType) => (
+                            {(
+                              [
+                                "醫療",
+                                "食物／飲水",
+                                "物資",
+                                "挖土／清障",
+                                "運送",
+                                "安置",
+                                "通訊",
+                                "其他",
+                              ] as ServiceType[]
+                            ).map((serviceType) => (
                               <option key={serviceType} value={serviceType}>
                                 {serviceType}
                               </option>
@@ -377,7 +414,14 @@ export function App() {
                               )
                             }
                           >
-                            {(["待分類", "已分類", "需要人工確認", "不能直接當作已確認事實"] as ReviewState[]).map((reviewState) => (
+                            {(
+                              [
+                                "待分類",
+                                "已分類",
+                                "需要人工確認",
+                                "不能直接當作已確認事實",
+                              ] as ReviewState[]
+                            ).map((reviewState) => (
                               <option key={reviewState} value={reviewState}>
                                 {reviewState}
                               </option>
