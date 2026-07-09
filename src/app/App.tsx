@@ -7,12 +7,7 @@ import type { Phase0MessyRecord } from "../features/phase-0/phase0-types";
 
 type TabKey = "raw" | "workbench" | "classification";
 type EventType =
-  | "淹水"
-  | "交通阻塞"
-  | "房屋受損"
-  | "人員受困"
-  | "物資短缺"
-  | "其他";
+  "淹水" | "交通阻塞" | "房屋受損" | "人員受困" | "物資短缺" | "其他";
 type ServiceType =
   | "醫療"
   | "食物／飲水"
@@ -23,23 +18,12 @@ type ServiceType =
   | "通訊"
   | "其他";
 type ReviewState =
-  | "待分類"
-  | "已分類"
-  | "需要人工確認"
-  | "不能直接當作已確認事實";
+  "待分類" | "已分類" | "需要人工確認" | "不能直接當作已確認事實";
 type DispatchReadiness =
-  | "不可派工"
-  | "待補資料"
-  | "分類草稿"
-  | "待人類調度者確認";
+  "不可派工" | "待補資料" | "分類草稿" | "待人類調度者確認";
 type SourceRisk = "轉發或二手來源" | "來源仍待確認" | "需核對查核狀態";
 type WorkforceNeed =
-  | "清理泥沙"
-  | "搬運物資"
-  | "醫療協助"
-  | "交通接送"
-  | "物資整理"
-  | "聯絡確認";
+  "清理泥沙" | "搬運物資" | "醫療協助" | "交通接送" | "物資整理" | "聯絡確認";
 type SupplyNeed =
   | "飲食物資"
   | "衣物用品"
@@ -380,11 +364,10 @@ function buildShortSummary(record: Phase0MessyRecord): string {
     ...inferWorkforceNeeds(record.rawText),
     ...inferSupplyNeeds(record.rawText),
   ].slice(0, 2);
-  const label = needs.length > 0 ? needs.join(" / ") : inferEventType(record.rawText);
+  const label =
+    needs.length > 0 ? needs.join(" / ") : inferEventType(record.rawText);
   const sourceStatus =
-    inferSourceRisk(record) === "需核對查核狀態"
-      ? "待人工確認"
-      : "來源待確認";
+    inferSourceRisk(record) === "需核對查核狀態" ? "待人工確認" : "來源待確認";
 
   return `${label}｜${sourceStatus}`;
 }
@@ -515,7 +498,10 @@ function buildSummaryChart(
 function buildSourceChecks(record: Phase0MessyRecord): string[] {
   const checks = ["核對原始查核狀態", "保留原文，不改寫成事實"];
 
-  if (record.sourceType === "social_post" || /截圖|群組|有人說|留言/.test(record.rawText)) {
+  if (
+    record.sourceType === "social_post" ||
+    /截圖|群組|有人說|留言/.test(record.rawText)
+  ) {
     checks.push("追問原始連結");
     checks.push("確認發文時間");
     checks.push("確認發文者是否第一手");
@@ -616,7 +602,10 @@ function Phase0Page() {
     );
   }
 
-  function toggleMessageServiceType(messageId: string, serviceType: ServiceType) {
+  function toggleMessageServiceType(
+    messageId: string,
+    serviceType: ServiceType,
+  ) {
     setMessages((current) =>
       current.map((message) => {
         if (message.id !== messageId) {
@@ -630,7 +619,8 @@ function Phase0Page() {
 
         return {
           ...message,
-          serviceTypes: nextServiceTypes.length > 0 ? nextServiceTypes : ["其他"],
+          serviceTypes:
+            nextServiceTypes.length > 0 ? nextServiceTypes : ["其他"],
         };
       }),
     );
@@ -916,8 +906,7 @@ function V1Page() {
     const matchesNeeds =
       needsFilter === "全部" ||
       (needsFilter === "來源待確認" && draft.sourceChecks.length > 2) ||
-      (needsFilter === "待補資料" &&
-        draft.readiness !== "待人類調度者確認");
+      (needsFilter === "待補資料" && draft.readiness !== "待人類調度者確認");
     const matchesHelp =
       helpFilter === "全部" || draft.helpTypes.includes(helpFilter);
 
@@ -951,7 +940,11 @@ function V1Page() {
       note: "仍需人類確認",
     },
   ];
-  const needsFilters: Array<{ key: V1NeedsFilter; label: string; count: number }> = [
+  const needsFilters: Array<{
+    key: V1NeedsFilter;
+    label: string;
+    count: number;
+  }> = [
     { key: "全部", label: "全部通報", count: drafts.length },
     {
       key: "來源待確認",
@@ -965,16 +958,19 @@ function V1Page() {
         .length,
     },
   ];
-  const helpFilters: Array<{ key: V1HelpFilter; label: string; count: number }> =
-    [
-      { key: "全部", label: "全部幫助", count: drafts.length },
-      ...serviceTypes.map((serviceType) => ({
-        key: serviceType,
-        label: serviceType,
-        count: drafts.filter((draft) => draft.helpTypes.includes(serviceType))
-          .length,
-      })),
-    ];
+  const helpFilters: Array<{
+    key: V1HelpFilter;
+    label: string;
+    count: number;
+  }> = [
+    { key: "全部", label: "全部幫助", count: drafts.length },
+    ...serviceTypes.map((serviceType) => ({
+      key: serviceType,
+      label: serviceType,
+      count: drafts.filter((draft) => draft.helpTypes.includes(serviceType))
+        .length,
+    })),
+  ];
 
   function addReport() {
     const trimmedText = newReportText.trim();
@@ -1032,7 +1028,8 @@ function V1Page() {
           <p className="eyebrow">v1 資訊整理後台</p>
           <h1>調度前資料整理台</h1>
           <p>
-            這個頁面把 Phase 0 原始資訊整理成來源檢查、缺漏欄位、人力與物資需求草稿。它不產生已確認派工，也不替人類決定要派誰或派多少人。
+            這個頁面把 Phase 0
+            原始資訊整理成來源檢查、缺漏欄位、人力與物資需求草稿。它不產生已確認派工，也不替人類決定要派誰或派多少人。
           </p>
         </div>
         <a className="hero__link hero__link--secondary" href="/">
@@ -1043,7 +1040,8 @@ function V1Page() {
       <section className="v1-warning" aria-label="安全邊界">
         <strong>安全邊界</strong>
         <span>
-          資料仍來自 Phase 0 原始資訊；未確認內容不得顯示為已確認。使用者不必一次填完整，知道多少先留多少。
+          資料仍來自 Phase 0
+          原始資訊；未確認內容不得顯示為已確認。使用者不必一次填完整，知道多少先留多少。
         </span>
       </section>
 

@@ -20,8 +20,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "validate:data": "tsx scripts/validate-fixtures.ts",
-    "check": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run validate:data && pnpm run test && pnpm run build"
+    "validate:data": "node scripts/validate-fixtures.ts",
+    "check": "prettier --check . && eslint . && tsc --noEmit && node scripts/validate-fixtures.ts && vitest run && tsc -b && vite build"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",

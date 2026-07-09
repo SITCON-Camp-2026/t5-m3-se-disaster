@@ -33,10 +33,9 @@ describe("App", () => {
     expect(
       screen.queryByRole("button", { name: "人員指派" }),
     ).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "進入 v1 整理後台" })).toHaveAttribute(
-      "href",
-      "/v1/",
-    );
+    expect(
+      screen.getByRole("link", { name: "進入 v1 整理後台" }),
+    ).toHaveAttribute("href", "/v1/");
   });
 
   it("shows review states in the phase 0 workbench", () => {
@@ -163,9 +162,7 @@ describe("App", () => {
     render(<App />);
 
     expect(screen.getByText("調度前資料整理台")).toBeInTheDocument();
-    expect(
-      screen.getByText(/資料仍來自 Phase 0 原始資訊/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/資料仍來自 Phase 0 原始資訊/)).toBeInTheDocument();
     expect(screen.getByText("來源檢查")).toBeInTheDocument();
     expect(screen.getByText("人力需求草稿")).toBeInTheDocument();
     expect(screen.getByText("物資需求草稿")).toBeInTheDocument();
@@ -176,7 +173,9 @@ describe("App", () => {
     expect(screen.getByText("地")).toBeInTheDocument();
     expect(screen.getByText("需要帶的東西")).toBeInTheDocument();
     expect(screen.getAllByText(/M-001/).length).toBeGreaterThan(0);
-    expect(screen.getByText(/清理泥沙 .* 交通接送｜來源待確認/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/清理泥沙 .* 交通接送｜來源待確認/),
+    ).toBeInTheDocument();
     expect(screen.getByText("不可派工原因")).toBeInTheDocument();
     expect(screen.getByText("缺明確地點")).toBeInTheDocument();
     expect(screen.getByText("缺第一手來源")).toBeInTheDocument();
@@ -212,7 +211,8 @@ describe("App", () => {
 
     fireEvent.change(screen.getByLabelText("通報內容"), {
       target: {
-        value: "時間不確定；群組轉傳：有人說臨時點需要手套，但沒有原始連結和時間。",
+        value:
+          "時間不確定；群組轉傳：有人說臨時點需要手套，但沒有原始連結和時間。",
       },
     });
     fireEvent.click(screen.getByRole("button", { name: "加入待整理" }));
@@ -224,16 +224,16 @@ describe("App", () => {
     expect(screen.getByText("缺時間有效性")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "待補：缺時間有效性" }));
-    expect(screen.getAllByText("待補：缺時間有效性").length).toBeGreaterThan(
-      1,
-    );
+    expect(screen.getAllByText("待補：缺時間有效性").length).toBeGreaterThan(1);
 
     fireEvent.change(screen.getByLabelText("新增留言"), {
       target: { value: "缺原始連結，先追問發文時間。" },
     });
     fireEvent.click(screen.getByRole("button", { name: "留下補充" }));
 
-    expect(screen.getByText("缺原始連結，先追問發文時間。")).toBeInTheDocument();
+    expect(
+      screen.getByText("缺原始連結，先追問發文時間。"),
+    ).toBeInTheDocument();
   });
 
   it("filters v1 reports by missing source and help category buttons", () => {

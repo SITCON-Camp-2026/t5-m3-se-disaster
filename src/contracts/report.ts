@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { commonRecordSchema } from "./common";
+import { commonRecordSchema } from "./common.ts";
 
 export const reportTypeSchema = z.enum([
   "human_need",

@@ -45,6 +45,7 @@
 | 2026-07-09 | v1 | 補通報統整圖表 | Agent 在每筆 v1 通報下方加入人、事、時、地、需要帶的東西與下一步圖表，並保留留言補充 | 採用 | 圖表欄位只整理原始資訊線索；不明確內容顯示需要人工確認，留言也只作為前端暫存補充 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
 | 2026-07-09 | v1 | 改善受災戶友善操作 | Agent 加上快速通報片語、缺漏一鍵轉留言，並調整 v1 為較溫和的綠藍配色 | 採用 | 操作降低輸入負擔，但仍只產生待確認草稿；不新增真實資料、不自動派工 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
 | 2026-07-09 | v1 | 新增補充與幫助分類篩選 | Agent 將來源待確認、待補資料做成一鍵篩選按鈕，並新增醫療、物資、食物／飲水等幫助分類篩選 | 採用 | 篩選只協助找到需要補充的通報草稿，不代表資料已確認，也不會自動派工 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
+| 2026-07-09 | 工具鏈 | 修正 `pnpm check` | Agent 將 `check` 改成直接執行工具、讓資料驗證改用 Node 24 執行，並忽略 release-packs 教材格式檢查 | 採用 | 這只修正驗證流程，不改原始資訊、不改救災判斷，也避免格式工具改寫課程 release 教材 | `.prettierignore`, `package.json`, `scripts/validate-fixtures.ts`, `src/contracts/**`, `tsconfig.app.json` |
 
 ## 課後反思
 

@@ -7,8 +7,8 @@ import {
   siteStatusReportsSchema,
   sitesSchema,
   tasksSchema,
-} from "../src/contracts";
-import { parseFixture } from "../src/lib/load-fixture";
+} from "../src/contracts/index.ts";
+import { parseFixture } from "../src/lib/load-fixture.ts";
 
 const validations: Array<readonly [string, z.ZodType<unknown>]> = [
   ["src/fixtures/shared/reports.json", reportsSchema],

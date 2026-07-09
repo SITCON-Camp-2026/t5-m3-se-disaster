@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { commonRecordSchema } from "./common";
+import { commonRecordSchema } from "./common.ts";
 
 export const taskStatusSchema = z.enum([
   "draft",
