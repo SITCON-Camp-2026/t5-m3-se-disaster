@@ -39,6 +39,12 @@
 | 2026-07-09 | Release 01 | 訪談前需求取捨 | Agent 依對話整理資訊整理者作為 v1 主要使用者，並補上轉發網路貼文的來源確認問題 | 部分採用 | 採用來源檢查清單與「未確認」標示；不採用自動驗證貼文真偽，因為這需要人工確認且不能補外部資料 | `docs/interview-notes.md`, `docs/interview-summary.md`, `docs/decisions.md` |
 | 2026-07-09 | Release 01 | 整理需求取捨文件 | Agent 將使用者貼上的重複草稿整理成 `docs/decisions.md`，保留人力需求欄位與人工確認限制 | 採用 | 人力需求可以作為整理草稿，但能不能派工、是否派人、派多少人仍必須由人類確認 | `docs/decisions.md`, `docs/ai-log.md` |
 | 2026-07-09 | Release 02 | 繪製資訊整理流程 | Agent 根據 `docs/decisions.md` 和流程設計 kit 產生自然語言流程與 Mermaid 流程圖 | 採用 | 流程把人力/物資需求保留為草稿，並明確保留人類調度確認，避免 AI 自動派工 | `docs/flow.md`, `docs/ai-log.md` |
+| 2026-07-09 | v1 | 生成資訊整理網站 | Agent 依 `docs/flow.md` 建立 `/v1/` 調度前資料整理台，顯示來源檢查、缺漏欄位、人力與物資需求草稿 | 採用 | v1 仍只使用 Phase 0 原始資訊，所有需求分類都是草稿，不顯示已確認派工，也不讓 AI 決定是否派人或派多少人 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
+| 2026-07-09 | v1 | 改善整理後台可用性 | Agent 加上左側通報摘要、細分不可派工原因、新增通報輸入與每筆通報留言補充 | 採用 | 這些功能協助資訊整理者記錄缺漏，但新增通報和留言只暫存在前端，不代表資料已確認或已派工 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
+| 2026-07-09 | v1 | 分離首頁分類頁與 v1 後台 | Agent 將首頁「訊息分類」恢復為原本分類草稿狀態，v1 另外保留調度前確認狀態 | 採用 | 避免 v1 功能影響原本依幫助需求分組的分類版面；首頁分類仍是草稿，不代表已確認資料 | `src/app/App.tsx`, `tests/app-smoke.test.tsx` |
+| 2026-07-09 | v1 | 補通報統整圖表 | Agent 在每筆 v1 通報下方加入人、事、時、地、需要帶的東西與下一步圖表，並保留留言補充 | 採用 | 圖表欄位只整理原始資訊線索；不明確內容顯示需要人工確認，留言也只作為前端暫存補充 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
+| 2026-07-09 | v1 | 改善受災戶友善操作 | Agent 加上快速通報片語、缺漏一鍵轉留言，並調整 v1 為較溫和的綠藍配色 | 採用 | 操作降低輸入負擔，但仍只產生待確認草稿；不新增真實資料、不自動派工 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
+| 2026-07-09 | v1 | 新增補充與幫助分類篩選 | Agent 將來源待確認、待補資料做成一鍵篩選按鈕，並新增醫療、物資、食物／飲水等幫助分類篩選 | 採用 | 篩選只協助找到需要補充的通報草稿，不代表資料已確認，也不會自動派工 | `src/app/App.tsx`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
 
 ## 課後反思
 
